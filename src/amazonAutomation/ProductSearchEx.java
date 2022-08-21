@@ -15,18 +15,20 @@ public class ProductSearchEx {
 		// TODO Auto-generated method stub
 		System.setProperty("Webdriver.Chrome.Driver", "Chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
-
+		//Launch Amazon.in
 		driver.get("https://www.amazon.in/");
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
-
+        
+		//Search for Samsung
 		WebElement SearchText = driver.findElement(By.id("twotabsearchtextbox"));
 		SearchText.sendKeys("samsung");
 
+		 //Click Search Button
 		WebElement SearchButton = driver.findElement(By.id("nav-search-submit-button"));
 		SearchButton.click();
 
-
+		//Print Product Details and Price
 
 		List<WebElement> ProductList = driver.findElements(By.xpath("//div[@class='a-section']//span[starts-with(text(),'Samsung ')]"));
 		List<WebElement> PriceList = driver.findElements(By.xpath("//div[@data-component-type='s-search-result']//span[@class='a-price']"));
@@ -36,12 +38,14 @@ public class ProductSearchEx {
 			System.out.println(ProductList.get(i).getText()+" "+ PriceList.get(i).getText());
 		}
 
-
+		//Getting Parent Window Handler
 		String ParentWH= driver.getWindowHandle();
 		String ExpectedValue = ProductList.get(0).getText();
 
+		// Click on First Product Link
 		ProductList.get(0).click();
 
+		//Switching to 2nd window
 		Set<String> AllWindowHandler =	driver.getWindowHandles();
 		for(String win : AllWindowHandler ) {
 			System.out.println(win);
@@ -56,10 +60,11 @@ public class ProductSearchEx {
 
 		String str = title.getText();
 
+		//Validation on parent and child windows
 		if(str.equals(ExpectedValue)) {
-			System.out.println("Title is matching");
+			System.out.println("TC passed : Title is matching");
 		}else {
-			System.out.println("Title is not matching");
+			System.out.println("TC Failed : Title is not matching");
 		}
 		driver.quit();
 
